@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About | UCC Timetable Portal</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <style>
+    .fade-in {
+      animation: fadeIn 0.6s ease-out both;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bounceOut {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+    .hover\:bounce-out:hover {
+      animation: bounceOut 0.4s ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-white text-gray-900">
+  <!-- Header -->
+  <header class="bg-blue-600 text-white py-6 shadow">
+    <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold flex items-center gap-2">
+        <i class="ph ph-info text-2xl"></i>
+        About This Portal
+      </h1>
+      <a href="index.html" aria-label="Go back to homepage" class="bg-gradient-to-br from-cyan-200 to-blue-300 text-blue-900 p-3 rounded-full hover:from-blue-300 hover:to-cyan-100 hover:text-blue-800 transform transition duration-300 ease-in-out shadow-lg hover:bounce-out">
+        <i class="ph ph-house text-3xl text-indigo-900"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- About Section -->
+  <main class="py-16 fade-in">
+    <section class="max-w-3xl mx-auto px-4 text-center">
+      <h2 class="text-3xl font-bold mb-6">Welcome to the UCC Timetable Portal</h2>
+      <p class="text-gray-700 text-lg">
+        This timetable portal was created to simplify how Computer Science and Information Technology students at UCC access their schedules. It's fast, responsive, and always up to date.
+      </p>
+    </section>
+
+    <section class="max-w-6xl mx-auto mt-16 px-4">
+      <h3 class="text-2xl font-semibold text-center mb-8">Meet the Developers</h3>
+      <!-- Top Row (2 cards) -->
+      <div class="flex flex-wrap justify-center gap-8 mb-10">
+        <!-- Developer Card 1 - Prince Agyei -->
+        <div class="bg-gradient-to-br from-white to-blue-50 rounded-2xl shadow-md p-6 text-center hover:shadow-2xl hover:scale-105 transition-transform duration-300 ease-in-out">
+          <img src="https://api.dicebear.com/7.x/initials/svg?seed=Prince%20Agyei" alt="Prince Avatar" class="w-28 h-28 mx-auto rounded-full mb-5">
+          <h4 class="text-2xl font-bold text-blue-700">Prince Agyei</h4>
+          <p class="text-gray-600 text-base">Frontend Developer</p>
+        </div>
+        <!-- Developer Card 2 -->
+        <div class="bg-white rounded-2xl shadow-lg p-7 text-center hover:shadow-2xl hover:scale-105 transition-transform duration-300 ease-in-out">
+          <img src="https://api.dicebear.com/7.x/initials/svg?seed=Joyce%20Mensah" alt="Joyce Avatar" class="w-28 h-28 mx-auto rounded-full mb-5">
+          <h4 class="text-2xl font-bold text-blue-700">Joyce Mensah</h4>
+          <p class="text-gray-600 text-base">UI/UX Designer</p>
+        </div>
+      </div>
+      <!-- Bottom Row (3 cards) -->
+      <div class="flex flex-wrap justify-center gap-8">
+        <!-- Developer Card 3 -->
+        <div class="bg-white rounded-2xl shadow-lg p-7 text-center hover:shadow-2xl hover:scale-105 transition-transform duration-300 ease-in-out">
+          <img src="https://api.dicebear.com/7.x/initials/svg?seed=Kwame%20Yeboah" alt="Kwame Avatar" class="w-28 h-28 mx-auto rounded-full mb-5">
+          <h4 class="text-2xl font-bold text-blue-700">Kwame Yeboah</h4>
+          <p class="text-gray-600 text-base">Backend Developer</p>
+        </div>
+        <!-- Developer Card 4 -->
+        <div class="bg-white rounded-2xl shadow-lg p-7 text-center hover:shadow-2xl hover:scale-105 transition-transform duration-300 ease-in-out">
+          <img src="https://api.dicebear.com/7.x/initials/svg?seed=Akosua%20Darko" alt="Akosua Avatar" class="w-24 h-24 mx-auto rounded-full mb-4">
+          <h4 class="text-xl font-bold text-blue-700">Akosua Darko</h4>
+          <p class="text-gray-600">Database Specialist</p>
+        </div>
+        <!-- Developer Card 5 -->
+        <div class="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl transition">
+          <img src="https://api.dicebear.com/7.x/initials/svg?seed=Daniel%20Owusu" alt="Daniel Avatar" class="w-24 h-24 mx-auto rounded-full mb-4">
+          <h4 class="text-xl font-bold text-blue-700">Daniel Owusu</h4>
+          <p class="text-gray-600">DevOps Engineer</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-3xl mx-auto mt-16 px-4 text-center">
+      <h3 class="text-2xl font-semibold mb-4">Version & Credits</h3>
+      <p class="text-gray-600">Version 1.0 &middot; Developed by Prince Agyei</p>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-100 border-t py-6 mt-16">
+    <div class="text-center text-sm text-gray-600">
+      © 2025 UCC Timetable Portal. Made for CS & IT students.
+    </div>
+  </footer>
+</body>
+</html>

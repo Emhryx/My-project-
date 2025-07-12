@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Timetable | UCC Portal</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+  <!-- Navbar -->
+  <header class="bg-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-4">
+        <img src="images/images.jpeg" alt="UCC Logo" class="w-10 h-10 object-contain" />
+        <h1 class="text-2xl font-bold text-blue-600">UCC Timetable</h1>
+      </div>
+      <a href="index.html" class="bg-blue-100 text-blue-500 hover:bg-blue-200 hover:text-blue-700 transition-all duration-500 transform hover:scale-125 hover:rotate-6 text-3xl p-2 rounded-full shadow-md">
+  <i class="ph ph-house"></i>
+</a>
+    </div>
+  </header>
+
+  <!-- Timetable Section -->
+  <section class="py-16">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-6">View Your Timetable</h2>
+
+      <!-- Program & Level Selector -->
+      <div class="mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <select id="programSelect" class="w-full px-4 py-2 border rounded">
+          <option value="cs">Computer Science</option>
+          <option value="it">Information Technology</option>
+        </select>
+        <select id="levelSelect" class="w-full px-4 py-2 border rounded">
+          <option value="100">Level 100</option>
+          <option value="200">Level 200</option>
+          <option value="300">Level 300</option>
+          <option value="400">Level 400</option>
+        </select>
+      </div>
+
+      
+      <!-- Timetable Grid Table -->
+      <div id="timetableDisplay" class="overflow-auto bg-white rounded-lg shadow p-4">
+        <table class="w-full border text-sm">
+          <thead class="bg-gray-200">
+            <tr>
+              <th class="p-2 border">Day</th>
+              <!-- Time headers will be injected here -->
+            </tr>
+          </thead>
+          <tbody id="timetableBody">
+            <!-- Timetable rows will be injected here -->
+          </tbody>
+        </table>
+        <p class="text-center text-gray-500 mt-4">Scheduled classes will appear here dynamically.</p>
+      </div>
+
+      <!-- Color Key -->
+      <div class="mt-8 bg-white p-4 rounded shadow">
+        <h3 class="text-lg font-semibold mb-2">Color Key:</h3>
+        <ul class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+          <li class="flex items-center space-x-2">
+            <span class="w-4 h-4 rounded bg-blue-200 border"></span>
+            <span>Lecture</span>
+          </li>
+          <li class="flex items-center space-x-2">
+            <span class="w-4 h-4 rounded bg-green-200 border"></span>
+            <span>Lab</span>
+          </li>
+          <li class="flex items-center space-x-2">
+            <span class="w-4 h-4 rounded bg-yellow-200 border"></span>
+            <span>Tutorial</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="mt-6 flex justify-center gap-4">
+      <button onclick="downloadPDF()" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Download PDF</button>
+      <button onclick="downloadExcel()" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Download Excel</button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-gray-200 py-6">
+    <div class="text-center text-sm text-gray-600">
+      © 2025 UCC Timetable Portal. Made for CS & IT students.
+    </div>
+  </footer>
+
+  <script>
+    const theadRow = document.querySelector("thead tr");
+    const tbody = document.getElementById("timetableBody");
+
+    for (let i = 0; i < 12; i++) {
+      const hour = 6 + i;
+      const displayHour = hour > 12 ? hour - 12 : hour;
+      const ampm = hour >= 12 ? "PM" : "AM";
+      const time = `${displayHour}:30 ${ampm}`;
+
+      const th = document.createElement("th");
+      th.className = "p-2 border text-center";
+      th.textContent = time;
+      theadRow.appendChild(th);
+    }
+
+    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+
+    function generateClass(dayIndex, i, text, span, className) {
+      const td = document.createElement("td");
+      const [courseName, venue] = text.split("@");
+      td.textContent = courseName.trim();
+      td.title = venue ? venue.trim() : "";
+      td.colSpan = span;
+      td.className = `border p-2 text-center ${className}`;
+      return { td, skip: span };
+    }
+
+    function getSchedule(program, level) {
+      const csSchedules = {
+        "100": {
+          Monday: { 0: ["CSIT 101 @LT1", 1, "bg-blue-200"], 6: ["CSIT 102 @LT2", 3, "bg-blue-200"] },
+          Tuesday: { 3: ["CS Lab @LAB 1", 2, "bg-green-200"] },
+          Wednesday: { 4: ["Discrete Math @LT3", 2, "bg-blue-200"] },
+          Thursday: { 9: ["Calculus Tutorial @LT2", 1, "bg-yellow-200"] }
+        },
+        "200": {
+          Monday: { 2: ["OOP @LAB 2", 2, "bg-blue-200"] },
+          Tuesday: { 5: ["Data Structures @LT1", 2, "bg-blue-200"] },
+          Wednesday: { 7: ["OOP Lab @LAB 4", 2, "bg-green-200"] },
+          Thursday: { 1: ["Discrete II @LT3", 1, "bg-yellow-200"] }
+        },
+        "300": {
+          Monday: { 1: ["Algorithms @LT1", 2, "bg-blue-200"] },
+          Tuesday: { 6: ["AI Basics @LT2", 2, "bg-blue-200"] },
+          Wednesday: { 3: ["AI Lab @LAB 3", 2, "bg-green-200"] },
+          Friday: { 4: ["Advanced DB @LT2", 1, "bg-yellow-200"] }
+        },
+        "400": {
+          Monday: { 0: ["Project Work @LT1", 2, "bg-yellow-200"] },
+          Tuesday: { 4: ["Advanced Networks @LT3", 2, "bg-blue-200"] },
+          Thursday: { 6: ["Seminar @LT1", 1, "bg-blue-200"] }
+        }
+      };
+
+      const itSchedules = {
+        "100": {
+          Monday: { 2: ["IT Basics @LT2", 2, "bg-blue-200"] },
+          Tuesday: { 4: ["Networking 101 @LAB 1", 2, "bg-green-200"] },
+          Wednesday: { 6: ["Web Tech @LT1", 1, "bg-blue-200"] },
+          Thursday: { 7: ["DBMS Lab @LAB 2", 2, "bg-green-200"] },
+          Friday: { 3: ["Tech Comm @LT3", 1, "bg-yellow-200"] }
+        },
+        "200": {
+          Monday: { 1: ["Web Development @LT2", 2, "bg-blue-200"] },
+          Tuesday: { 6: ["UI/UX Lab @LAB 3", 2, "bg-green-200"] },
+          Wednesday: { 4: ["Digital Systems @LT1", 2, "bg-blue-200"] }
+        },
+        "300": {
+          Monday: { 3: ["Cloud Tech @LT2", 2, "bg-blue-200"] },
+          Tuesday: { 2: ["IT Project @LT3", 2, "bg-yellow-200"] },
+          Thursday: { 5: ["Cloud Lab @LAB 4", 2, "bg-green-200"] }
+        },
+        "400": {
+          Monday: { 0: ["Capstone @LT1", 2, "bg-yellow-200"] },
+          Wednesday: { 2: ["Cyber Security @LT2", 2, "bg-blue-200"] },
+          Friday: { 6: ["Final Year Seminar @LT3", 1, "bg-blue-200"] }
+        }
+      };
+
+      const isCS = program === "cs";
+      const schedules = isCS ? csSchedules : itSchedules;
+      return schedules[level] || {};
+    }
+
+    function buildTimetable() {
+      tbody.innerHTML = "";
+      const selectedProgram = document.getElementById("programSelect").value;
+      const selectedLevel = document.getElementById("levelSelect").value;
+      const schedule = getSchedule(selectedProgram, selectedLevel);
+
+      days.forEach((day, dayIndex) => {
+        const tr = document.createElement("tr");
+
+        const dayCell = document.createElement("td");
+        dayCell.className = "border p-2 font-semibold";
+        dayCell.textContent = day;
+        tr.appendChild(dayCell);
+
+        let i = 0;
+        while (i < 12) {
+          const daySchedule = schedule[day] || {};
+          if (daySchedule[i]) {
+            const [text, span, color] = daySchedule[i];
+            const { td, skip } = generateClass(dayIndex, i, text, span, color);
+            tr.appendChild(td);
+            i += skip;
+          } else {
+            const td = document.createElement("td");
+            td.className = "border p-2";
+            tr.appendChild(td);
+            i++;
+          }
+        }
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    buildTimetable();
+    document.getElementById("programSelect").addEventListener("change", buildTimetable);
+    document.getElementById("levelSelect").addEventListener("change", buildTimetable);
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script>
+    function downloadPDF() {
+      const element = document.getElementById('timetableDisplay');
+      const program = document.getElementById('programSelect').value;
+      const level = document.getElementById('levelSelect').value;
+      const filename = `timetable_${program}_${level}.pdf`;
+      html2pdf().from(element).save(filename);
+    }
+
+    function downloadExcel() {
+      const table = document.querySelector("#timetableDisplay table");
+      const program = document.getElementById('programSelect').value;
+      const level = document.getElementById('levelSelect').value;
+      const filename = `timetable_${program}_${level}.xlsx`;
+      const wb = XLSX.utils.table_to_book(table, { sheet: "Timetable" });
+      XLSX.writeFile(wb, filename);
+    }
+      </script>
+</body>
+</html>
